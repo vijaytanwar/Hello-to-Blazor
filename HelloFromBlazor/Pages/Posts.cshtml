@@ -1,0 +1,42 @@
+﻿@page "/posts"
+@inject HttpClient http
+
+@functions{
+    class Post
+    {
+        public int userId;
+        public int id;
+        public string title;
+        public string body;
+    }
+
+    Post[] postList;
+
+    protected override async Task OnInitAsync()
+    {
+        postList = await http.GetJsonAsync<Post[]>("https://jsonplaceholder.typicode.com/posts");
+    }
+}
+
+<h2>User Posts</h2>
+@if (postList == null)
+{
+    <h3>Loading.....posts</h3>
+
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Summary</th>
+        </tr>
+        @foreach (Post post in postList)
+        {
+            <tr>
+                <td>@post.title</td>
+                <td>@post.body</td>
+            </tr>
+        }
+    </table>
+}

@@ -1,0 +1,18 @@
+﻿@functions{
+    [Parameter]
+    private RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    private string Title { get; set; }
+
+    [Parameter]
+    private int ChildYear { get; set; }
+
+    [Parameter]
+    private Action<int> ChildYearChanged { get; set; }
+}
+
+<h4>@Title</h4>
+<p>@ChildContent</p>
+<p>Child Year: @ChildYear</p>
+

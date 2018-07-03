@@ -1,0 +1,9 @@
+﻿@page "/interop-example"
+
+@using MySharedBlazorLib;
+
+@functions{
+    private string text { get; set; }
+}
+<input type="text" onchange="@((UIChangeEventArgs __e)=>text=__e.Value.ToString())" />
+<button onclick="@(e=>WindowFunctions.Alert(text))">Show alert</button>

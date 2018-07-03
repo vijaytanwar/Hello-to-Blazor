@@ -1,0 +1,68 @@
+﻿@page "/todos"
+@using MySharedBlazorLib;
+
+<h2>Todo List</h2>
+<div>
+    <input type="text" bind="@NewTodoText" />
+    <button onclick="@AddTodo">Add new todo</button>
+</div>
+
+<div>
+    Done:<input type="checkbox" bind="@IsDone" />
+    All:<input type="checkbox" bind="@All" />
+</div>
+@{
+    var filteredTodo = todoList.Where(x => x.IsDone == IsDone || (All == true && (x.IsDone == true || x.IsDone == false)));
+}
+@if (filteredTodo.Count() == 0)
+{
+    <h4>No items to display</h4>
+
+}
+else
+{
+    <table class="table">
+        <tr>
+            <td>Is Done</td>
+            <td>Description</td>
+        </tr>
+
+        @foreach (var todo in filteredTodo)
+        {
+            <tr>
+                <td><input type="checkbox" bind="@todo.IsDone" /></td>
+                <td>@todo.Description</td>
+            </tr>
+        }
+    </table>
+}
+
+
+@functions{
+        List<Todo> todoList = new List<Todo>();
+        string NewTodoText;
+        bool All = true;
+        bool IsDone = false;
+
+        void AddTodo()
+        {
+            todoList.Add(new Todo() { IsDone = false, Description = NewTodoText });
+            LocalStorage.SetItem<List<Todo>>("todoList", todoList);
+            NewTodoText = "";
+        }
+
+    protected override async Task OnInitAsync()
+    {
+        var list = LocalStorage.GetItem<List<Todo>>("todoList");
+        if (list.Count() != null)
+        {
+            todoList.AddRange(list);
+        }
+    }
+
+    class Todo
+    {
+        public bool IsDone;
+        public string Description;
+    }
+}

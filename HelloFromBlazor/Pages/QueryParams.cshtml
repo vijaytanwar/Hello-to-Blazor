@@ -1,0 +1,10 @@
+﻿@page "/query-params"
+@page "/query-params/{text}"
+
+
+@functions{
+    [Parameter]
+    private string Text { get; set; } = "DefaultValue";
+}
+<h3>Query String Value</h3>
+@Text

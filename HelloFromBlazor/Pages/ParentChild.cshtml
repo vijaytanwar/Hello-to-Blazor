@@ -1,0 +1,30 @@
+﻿@page "/parentchild"
+
+<p>
+    Parent Year:@Year
+</p>
+<button onclick="@ChangeTheYear">change year</button>
+<Child Title="Hello from parent" bind-ChildYear="@Year">
+    This will be rendered in child content;
+</Child>
+
+<div>
+    <label>Type Something...</label>
+    <input type="text" onchange="@((UIChangeEventArgs __e) => CurrentValue = __e.Value.ToString())" /><br />
+    @CurrentValue
+</div>
+
+<div>
+    Current Date:<input bind="@StartDate" format-value="yyyy-MM-dd" />
+</div>
+
+@functions{
+    private string CurrentValue { get; set; }
+    private DateTime StartDate { get; set; } = new DateTime(2017, 1, 2);
+    private int Year { get; set; } = 1971;
+
+    void ChangeTheYear()
+    {
+        Year = 2018;
+    }
+}
